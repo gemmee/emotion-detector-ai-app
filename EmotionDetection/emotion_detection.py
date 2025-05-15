@@ -8,16 +8,15 @@ def emotion_detector(text_to_analyze):
     response = requests.post(url, json=myobj, headers=header)
     formatted_response = json.loads(response.text) # print(formatted_response) to see it
     
-    emotions_with_score = formatted_response['emotionPredictions'][0]['emotion']
-    emotion_list = list(emotions_with_score.keys())
-    emotion_scores = list(emotions_with_score.values())
-    dominant_emotion_score = max(emotion_scores)
-    index_of_dominant_emotion = emotion_scores.index(dominant_emotion_score)
-    dominant_emotion = emotion_list[index_of_dominant_emotion]
+    if response.status_code == 200:
+        emotions_with_score = formatted_response['emotionPredictions'][0]['emotion']
+        emotion_list = list(emotions_with_score.keys())
+        emotion_scores = list(emotions_with_score.values())
+        dominant_emotion_score = max(emotion_scores)
+        index_of_dominant_emotion = emotion_scores.index(dominant_emotion_score)
+        dominant_emotion = emotion_list[index_of_dominant_emotion]
+        emotions_with_score['dominant_emotion'] = dominant_emotion
+    elif response.status_code == 500:
+        emotions_with_score = None
 
-    emotions_with_score['dominant_emotion'] = dominant_emotion
-    formatted_emotions_string = pprint.pformat(emotions_with_score, sort_dicts=False, indent=4)
-    formatted_emotions_string = formatted_emotions_string.replace('{', '{\n').replace('}', '\n}')
-    # print(formatted_emotions_string)
-    # return formatted_emotions_string
     return emotions_with_score

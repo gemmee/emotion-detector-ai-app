@@ -18,5 +18,6 @@ def emotion_detector(text_to_analyze):
     emotions_with_score['dominant_emotion'] = dominant_emotion
     formatted_emotions_string = pprint.pformat(emotions_with_score, sort_dicts=False, indent=4)
     formatted_emotions_string = formatted_emotions_string.replace('{', '{\n').replace('}', '\n}')
-    return formatted_emotions_string
-    # return emotions_with_score
+    # print(formatted_emotions_string)
+    # return formatted_emotions_string
+    return emotions_with_score
